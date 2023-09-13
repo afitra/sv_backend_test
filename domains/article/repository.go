@@ -7,4 +7,5 @@ type Repository interface {
 	RGetArticle(limit string, offset string) ([]models.Post, error)
 	RGetArticleCount() (int, error)
 	RGetArticleById(id string) (models.Post, error)
+	RUpdateArticle(id string, payload models.Post) error
 }
