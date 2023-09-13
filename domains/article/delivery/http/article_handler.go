@@ -20,6 +20,7 @@ func NewArticleHandler(echoGroup models.EchoGroup, auc article.Usecase) {
 	}
 	echoGroup.API.POST("/article", handler.createArticle)
 	echoGroup.API.GET("/article/:limit/:offset", handler.getArticle)
+	echoGroup.API.GET("/article/:id", handler.getArticleDataById)
 }
 
 func (aha *ArticleHandler) createArticle(c echo.Context) error {
@@ -54,6 +55,20 @@ func (aha *ArticleHandler) createArticle(c echo.Context) error {
 func (aha *ArticleHandler) getArticle(c echo.Context) error {
 
 	resp, err := aha.ArticleUseCase.UGetArticleCreated(c)
+	if err != nil {
+		errMap := resp.(models.ResponseErrorData)
+		aha.respErrors.SetTitleCode(errMap.Code, errMap.Title, errMap.Description)
+		aha.response.SetResponse("", &aha.respErrors)
+		return aha.response.Body(c, err)
+	}
+
+	aha.response.SetResponse(&resp, &aha.respErrors)
+	return c.JSON(http.StatusOK, resp)
+}
+
+func (aha *ArticleHandler) getArticleDataById(c echo.Context) error {
+
+	resp, err := aha.ArticleUseCase.UGetArticleDataById(c)
 	if err != nil {
 		errMap := resp.(models.ResponseErrorData)
 		aha.respErrors.SetTitleCode(errMap.Code, errMap.Title, errMap.Description)

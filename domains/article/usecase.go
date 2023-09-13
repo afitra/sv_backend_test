@@ -8,4 +8,5 @@ import (
 type Usecase interface {
 	UGenerateArticle(c echo.Context, pl models.PayloadPost) (interface{}, error)
 	UGetArticleCreated(c echo.Context) (interface{}, error)
+	UGetArticleDataById(c echo.Context) (interface{}, error)
 }

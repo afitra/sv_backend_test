@@ -61,3 +61,21 @@ func (aus *ArticleUseCase) UGetArticleCreated(c echo.Context) (interface{}, erro
 	return resp, err
 
 }
+
+func (aus *ArticleUseCase) UGetArticleDataById(c echo.Context) (interface{}, error) {
+
+	result, err := aus.articleRepo.RGetArticleById(c.Param("id"))
+	if err != nil {
+		var resp models.ResponseErrorData
+		resp.Code = strconv.Itoa(http.StatusBadRequest)
+		resp.Title = models.ErrSomethingWrong.Error()
+		return resp, err
+	}
+
+	var resp models.Response
+	resp.Code = strconv.Itoa(http.StatusOK)
+	resp.Status = models.ResponseSuccess
+	resp.Data = result
+	return resp, err
+
+}
