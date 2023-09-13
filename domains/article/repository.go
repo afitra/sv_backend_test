@@ -9,4 +9,6 @@ type Repository interface {
 	RGetArticleById(id string) (models.Post, error)
 	RUpdateArticle(id string, payload models.Post) error
 	RDestroyArticle(id string) error
+	RGetArticleByStatus(status string) ([]models.Post, error)
+	RUpdateArticleStatusById(id string, status string) error
 }

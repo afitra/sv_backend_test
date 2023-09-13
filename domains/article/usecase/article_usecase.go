@@ -126,3 +126,58 @@ func (aus *ArticleUseCase) UDestroyArticle(c echo.Context) (interface{}, error) 
 	return resp, err
 
 }
+
+func (aus *ArticleUseCase) UGetArticleByStatus(c echo.Context) (interface{}, error) {
+
+	var post []models.Post
+	var err error
+	if post, err = aus.articleRepo.RGetArticleByStatus(c.Param("status")); err != nil {
+		logger.Make(c, nil).Debug(err)
+		return nil, err
+	}
+
+	var resp models.Response
+	resp.Code = strconv.Itoa(http.StatusOK)
+	resp.Status = models.ResponseSuccess
+	resp.Data = post
+	return resp, err
+
+}
+
+func (aus *ArticleUseCase) UChangeStatusArticleById(c echo.Context) (interface{}, error) {
+	var err error
+
+	if !isValidStatus(c.Param("status")) {
+
+		var resp models.ResponseErrorData
+		resp.Code = strconv.Itoa(http.StatusBadRequest)
+		resp.Title = models.ErrSomethingWrong.Error()
+		return resp, err
+
+	}
+
+	if err = aus.articleRepo.RUpdateArticleStatusById(c.Param("id"), c.Param("status")); err != nil {
+		var resp models.ResponseErrorData
+		resp.Code = strconv.Itoa(http.StatusBadRequest)
+		resp.Title = models.ErrSomethingWrong.Error()
+		return resp, err
+	}
+
+	var resp models.Response
+	resp.Code = strconv.Itoa(http.StatusOK)
+	resp.Status = models.ResponseSuccess
+	return resp, err
+
+}
+
+func isValidStatus(input string) bool {
+
+	validStatus := []string{"publish", "draft", "thrash"}
+	for _, status := range validStatus {
+		if input == status {
+			return true
+		}
+	}
+	return false
+
+}

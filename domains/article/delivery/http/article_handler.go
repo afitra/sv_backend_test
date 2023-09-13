@@ -23,6 +23,8 @@ func NewArticleHandler(echoGroup models.EchoGroup, auc article.Usecase) {
 	echoGroup.API.GET("/article/:id", handler.getArticleDataById)
 	echoGroup.API.PUT("/article/:id", handler.updateArticleData)
 	echoGroup.API.DELETE("/article/:id", handler.destroyArticleData)
+	echoGroup.API.GET("/article/status/:status", handler.getArticleByStatus)
+	echoGroup.API.PUT("/article/status/:id/:status", handler.changeStatusArticleById)
 
 }
 
@@ -115,6 +117,34 @@ func (aha *ArticleHandler) updateArticleData(c echo.Context) error {
 func (aha *ArticleHandler) destroyArticleData(c echo.Context) error {
 
 	resp, err := aha.ArticleUseCase.UDestroyArticle(c)
+	if err != nil {
+		errMap := resp.(models.ResponseErrorData)
+		aha.respErrors.SetTitleCode(errMap.Code, errMap.Title, errMap.Description)
+		aha.response.SetResponse("", &aha.respErrors)
+		return aha.response.Body(c, err)
+	}
+
+	aha.response.SetResponse(&resp, &aha.respErrors)
+	return c.JSON(http.StatusOK, resp)
+}
+
+func (aha *ArticleHandler) getArticleByStatus(c echo.Context) error {
+
+	resp, err := aha.ArticleUseCase.UGetArticleByStatus(c)
+	if err != nil {
+		errMap := resp.(models.ResponseErrorData)
+		aha.respErrors.SetTitleCode(errMap.Code, errMap.Title, errMap.Description)
+		aha.response.SetResponse("", &aha.respErrors)
+		return aha.response.Body(c, err)
+	}
+
+	aha.response.SetResponse(&resp, &aha.respErrors)
+	return c.JSON(http.StatusOK, resp)
+}
+
+func (aha *ArticleHandler) changeStatusArticleById(c echo.Context) error {
+
+	resp, err := aha.ArticleUseCase.UChangeStatusArticleById(c)
 	if err != nil {
 		errMap := resp.(models.ResponseErrorData)
 		aha.respErrors.SetTitleCode(errMap.Code, errMap.Title, errMap.Description)
