@@ -8,4 +8,5 @@ type Repository interface {
 	RGetArticleCount() (int, error)
 	RGetArticleById(id string) (models.Post, error)
 	RUpdateArticle(id string, payload models.Post) error
+	RDestroyArticle(id string) error
 }

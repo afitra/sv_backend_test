@@ -109,3 +109,20 @@ func (aus *ArticleUseCase) UpdateArticleData(c echo.Context, pl models.PayloadPo
 	return resp, err
 
 }
+
+func (aus *ArticleUseCase) UDestroyArticle(c echo.Context) (interface{}, error) {
+	var err error
+	if err = aus.articleRepo.RDestroyArticle(c.Param("id")); err != nil {
+		var resp models.ResponseErrorData
+		resp.Code = strconv.Itoa(http.StatusBadRequest)
+		resp.Title = models.ErrSomethingWrong.Error()
+		return resp, err
+	}
+
+	var resp models.Response
+	resp.Code = strconv.Itoa(http.StatusOK)
+	resp.Status = models.ResponseSuccess
+
+	return resp, err
+
+}
