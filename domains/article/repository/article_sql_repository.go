@@ -24,3 +24,27 @@ func (pa *PsqlArticle) RCreateArticle(payload models.PayloadPost) error {
 	return err
 
 }
+
+func (pa *PsqlArticle) RGetArticle(limit string, offset string) ([]models.Post, error) {
+
+	var result []models.Post
+	var err error
+	query := `select  title,content,category,status from posts LIMIT ? OFFSET ?`
+	if err = pa.sqlx.Select(&result, query, limit, offset); err != nil {
+		return result, err
+	}
+	return result, nil
+
+}
+
+func (pa *PsqlArticle) RGetArticleCount() (int, error) {
+
+	var result []models.Post
+	var err error
+	query := `select  title from posts`
+	if err = pa.sqlx.Select(&result, query); err != nil {
+		return 0, err
+	}
+	return len(result), nil
+
+}
