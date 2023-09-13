@@ -34,3 +34,30 @@ func (aus *ArticleUseCase) UGenerateArticle(c echo.Context, pl models.PayloadPos
 	return resp, err
 
 }
+
+func (aus *ArticleUseCase) UGetArticleCreated(c echo.Context) (interface{}, error) {
+	var count int
+	var post []models.Post
+	var err error
+	if post, err = aus.articleRepo.RGetArticle(c.Param("limit"), c.Param("offset")); err != nil {
+		logger.Make(c, nil).Debug(err)
+		return nil, err
+	}
+
+	if count, err = aus.articleRepo.RGetArticleCount(); err != nil {
+		logger.Make(c, nil).Debug(err)
+		return nil, err
+	}
+
+	result := models.ArticleCreated{
+		Count: count,
+		Post:  post,
+	}
+
+	var resp models.Response
+	resp.Code = strconv.Itoa(http.StatusOK)
+	resp.Status = models.ResponseSuccess
+	resp.Data = result
+	return resp, err
+
+}

@@ -19,6 +19,7 @@ func NewArticleHandler(echoGroup models.EchoGroup, auc article.Usecase) {
 		ArticleUseCase: auc,
 	}
 	echoGroup.API.POST("/article", handler.createArticle)
+	echoGroup.API.GET("/article/:limit/:offset", handler.getArticle)
 }
 
 func (aha *ArticleHandler) createArticle(c echo.Context) error {
@@ -48,4 +49,18 @@ func (aha *ArticleHandler) createArticle(c echo.Context) error {
 
 	aha.response.SetResponse(&resp, &aha.respErrors)
 	return c.JSON(http.StatusCreated, resp)
+}
+
+func (aha *ArticleHandler) getArticle(c echo.Context) error {
+
+	resp, err := aha.ArticleUseCase.UGetArticleCreated(c)
+	if err != nil {
+		errMap := resp.(models.ResponseErrorData)
+		aha.respErrors.SetTitleCode(errMap.Code, errMap.Title, errMap.Description)
+		aha.response.SetResponse("", &aha.respErrors)
+		return aha.response.Body(c, err)
+	}
+
+	aha.response.SetResponse(&resp, &aha.respErrors)
+	return c.JSON(http.StatusOK, resp)
 }
