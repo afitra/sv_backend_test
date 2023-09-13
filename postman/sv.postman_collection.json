@@ -1,0 +1,201 @@
+{
+	"info": {
+		"_postman_id": "50ad05c5-ab64-439d-82fe-6a4d50c8e802",
+		"name": "sv",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26430410"
+	},
+	"item": [
+		{
+			"name": "/article",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"title1 1234567890 1234567890\",\n  \"content\": \"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and  \",\n  \"category\": \"category1\",\n  \"status\": \"publish\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{lokal}}/article",
+					"host": [
+						"{{lokal}}"
+					],
+					"path": [
+						"article"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/article/:limit/:offset",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{lokal}}/article/:limit/:offset",
+					"host": [
+						"{{lokal}}"
+					],
+					"path": [
+						"article",
+						":limit",
+						":offset"
+					],
+					"variable": [
+						{
+							"key": "limit",
+							"value": "1"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/article/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{lokal}}/article/:id",
+					"host": [
+						"{{lokal}}"
+					],
+					"path": [
+						"article",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/article/:id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"title123456789123456789\",\n  \"content\": \"PaiCZCyUZ0LhmCiiX5skWsu3DiiXINIM24TexpNtCh4dBH9xZcDOfUX99B05aH4pSwE6v64RWX8VY4qgOMUYeMCKPZPAuA0gMsZ1BW3b95iKMulwWEkeblGHHHs7AWZe9ESo0ZzTN0AEaXc1PQAWxVOEAoyoZYOt3goRaDRItUV68DgZR2PdCfMp3mfGfXDnRWhwf2tZ\",\n  \"category\": \"category1\",\n  \"status\": \"thrash\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{lokal}}/article/:id",
+					"host": [
+						"{{lokal}}"
+					],
+					"path": [
+						"article",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/article/:id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{lokal}}/article/:id",
+					"host": [
+						"{{lokal}}"
+					],
+					"path": [
+						"article",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/article/status/:status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{lokal}}/article/status/:status",
+					"host": [
+						"{{lokal}}"
+					],
+					"path": [
+						"article",
+						"status",
+						":status"
+					],
+					"variable": [
+						{
+							"key": "status",
+							"value": "publish"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/article/status/:id/:status",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{lokal}}/article/status/:id/:status",
+					"host": [
+						"{{lokal}}"
+					],
+					"path": [
+						"article",
+						"status",
+						":id",
+						":status"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "2"
+						},
+						{
+							"key": "status",
+							"value": "thrash"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
