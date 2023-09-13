@@ -48,3 +48,16 @@ func (pa *PsqlArticle) RGetArticleCount() (int, error) {
 	return len(result), nil
 
 }
+
+func (pa *PsqlArticle) RGetArticleById(id string) (models.Post, error) {
+
+	var result models.Post
+	var err error
+	query := `SELECT title,content,category,created_date,updated_date,status FROM posts WHERE id = ?`
+
+	if err := pa.sqlx.Get(&result, query, id); err != nil {
+		return result, err
+	}
+	return result, err
+
+}
