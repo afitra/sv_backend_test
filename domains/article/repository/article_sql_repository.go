@@ -61,3 +61,14 @@ func (pa *PsqlArticle) RGetArticleById(id string) (models.Post, error) {
 	return result, err
 
 }
+
+func (pa *PsqlArticle) RUpdateArticle(id string, payload models.Post) error {
+
+	query := "UPDATE posts SET title = ?, content = ?, category = ?, status = ? WHERE id = ?"
+	var err error
+	if _, err = pa.sqlx.Exec(query, payload.Title, payload.Content, payload.Category, payload.Status, id); err != nil {
+		return err
+	}
+	return nil
+
+}
