@@ -10,4 +10,5 @@ type Usecase interface {
 	UGetArticleCreated(c echo.Context) (interface{}, error)
 	UGetArticleDataById(c echo.Context) (interface{}, error)
 	UpdateArticleData(c echo.Context, pl models.PayloadPost) (interface{}, error)
+	UDestroyArticle(c echo.Context) (interface{}, error)
 }

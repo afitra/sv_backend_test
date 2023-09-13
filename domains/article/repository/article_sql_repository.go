@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"database/sql"
 	"github.com/jmoiron/sqlx"
 	"sv_backend_test/domains/article"
 	"sv_backend_test/models"
@@ -69,6 +70,25 @@ func (pa *PsqlArticle) RUpdateArticle(id string, payload models.Post) error {
 	if _, err = pa.sqlx.Exec(query, payload.Title, payload.Content, payload.Category, payload.Status, id); err != nil {
 		return err
 	}
+	return nil
+
+}
+
+func (pa *PsqlArticle) RDestroyArticle(id string) error {
+
+	query := "DELETE FROM posts WHERE id = ?"
+	var result sql.Result
+	var err error
+	if result, err = pa.sqlx.Exec(query, id); err != nil {
+		return err
+	}
+
+	// Periksa jumlah baris yang terpengaruh oleh operasi DELETE
+	numRows, _ := result.RowsAffected()
+	if numRows == 0 {
+		return sql.ErrNoRows // ID tidak ada dalam tabel
+	}
+
 	return nil
 
 }

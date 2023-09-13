@@ -22,6 +22,7 @@ func NewArticleHandler(echoGroup models.EchoGroup, auc article.Usecase) {
 	echoGroup.API.GET("/article/:limit/:offset", handler.getArticle)
 	echoGroup.API.GET("/article/:id", handler.getArticleDataById)
 	echoGroup.API.PUT("/article/:id", handler.updateArticleData)
+	echoGroup.API.DELETE("/article/:id", handler.destroyArticleData)
 
 }
 
@@ -100,6 +101,20 @@ func (aha *ArticleHandler) updateArticleData(c echo.Context) error {
 	}
 
 	resp, err := aha.ArticleUseCase.UpdateArticleData(c, request)
+	if err != nil {
+		errMap := resp.(models.ResponseErrorData)
+		aha.respErrors.SetTitleCode(errMap.Code, errMap.Title, errMap.Description)
+		aha.response.SetResponse("", &aha.respErrors)
+		return aha.response.Body(c, err)
+	}
+
+	aha.response.SetResponse(&resp, &aha.respErrors)
+	return c.JSON(http.StatusOK, resp)
+}
+
+func (aha *ArticleHandler) destroyArticleData(c echo.Context) error {
+
+	resp, err := aha.ArticleUseCase.UDestroyArticle(c)
 	if err != nil {
 		errMap := resp.(models.ResponseErrorData)
 		aha.respErrors.SetTitleCode(errMap.Code, errMap.Title, errMap.Description)
