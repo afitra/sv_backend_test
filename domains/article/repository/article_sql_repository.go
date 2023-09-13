@@ -92,3 +92,24 @@ func (pa *PsqlArticle) RDestroyArticle(id string) error {
 	return nil
 
 }
+
+func (pa *PsqlArticle) RGetArticleByStatus(status string) ([]models.Post, error) {
+
+	var result []models.Post
+	var err error
+	query := `select  id,title,content,category,status from posts where status = ?;`
+	if err = pa.sqlx.Select(&result, query, status); err != nil {
+		return result, err
+	}
+	return result, nil
+
+}
+
+func (pa *PsqlArticle) RUpdateArticleStatusById(id string, status string) error {
+	query := "UPDATE posts SET  status = ? WHERE id = ?"
+	var err error
+	if _, err = pa.sqlx.Exec(query, status, id); err != nil {
+		return err
+	}
+	return nil
+}
