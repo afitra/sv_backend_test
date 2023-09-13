@@ -26,7 +26,8 @@
 
 
 ## Documentation
-- dokumentasi api berupa collection postman beserta environment nya di folder postmant
+- dokumentasi api berupa collection postman beserta environment nya di folder postman atau [Klik disini](https://github.com/afitra/sv_backend_test/tree/dev/postman)
+
 
 
 #### Note
